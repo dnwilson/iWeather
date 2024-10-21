@@ -1,21 +1,20 @@
 <%= turbo_frame_tag :forecast do %>
-  <div class="mt-8 bg-blue-400 p-4 w-full">
+  <div class="mt-8 bg-gradient-to-r from-sky-300 to-sky-500 p-4 w-full rounded-md">
     <div class="flex w-full justify-between items-end text-white">
       <div class="temperature">
+        <div class="text-6xl font-bold"><%= today.temperature %>°</div>
         <div><%= extended_forecast.location %></div>
-        <div class="text-xl font-bold"><%= today.temperature %>°</div>
       </div>
       <div class="current-forecast">
-        <%= image_tag today.icon, class: "w-8" %>
-        <div class="text-sm"><%= today.description %></div>
+        <i class="<%= icon_for(today.main_period.daytime?, today.description) %> text-4xl"></i>
+        <div class="mt-1"><%= today.description %></div>
         <div class="text-xs">High: <%= today.temperature_hi.temperature %> / Low: <%= today.temperature_lo.temperature %></div>
       </div>
     </div>
-    <div class="flex w-full gap-2 mt-4">
+    <div class="flex w-full justify-between mt-4">
       <% extended_forecast.future_cast.each do |forecast| %>
-        <div class="block text-center">
-          <div class="forecast"><%= image_tag(forecast.current_period.icon, class: "w-8") %></div>
-          <div class="forecast"><%= forecast.description %></div>
+        <div class="flex flex-col items-center justify-center text-white rounded border-white border-1 p-3">
+          <i alt="<%= forecast.description %>" class="<%= icon_for(forecast.main_period.daytime?, forecast.description) %> text-4xl mb-3"></i>
           <div class="day"><%= forecast.date.to_date.strftime("%^a") %></div>
           <div class="text-md">H: <%= forecast.temperature_hi.temperature %>°</div>
           <div class="text-sm">L: <%= forecast.temperature_lo.temperature %>°</div>

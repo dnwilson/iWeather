@@ -18,8 +18,10 @@
                                 async: "true", defer: "true", "data-turbo-eval": false %>
   </head>
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+    <main class="container mx-auto w-full lg:w-1/2">
+      <div class="columns-auto text-center mt-24">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>

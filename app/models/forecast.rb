@@ -1,5 +1,5 @@
 class Forecast
-  attr_accessor :date, :temperature, :temperature_hi, :temperature_lo, :description, :icon, :current_period
+  attr_accessor :date, :temperature, :temperature_hi, :temperature_lo, :description, :icon, :main_period
 
   class << self
     def build_extended_forecast(periods)
@@ -41,10 +41,10 @@ class Forecast
     if periods.any?
       @temperature_lo = periods.min_by(&:temperature)
       @temperature_hi = periods.max_by(&:temperature)
-      @current_period = today? ? fetch_current_period(periods) : @temperature_hi
-      @temperature = current_period.temperature
-      @description = current_period.short_forecast
-      @icon = current_period.icon
+      @main_period = today? ? fetch_main_period(periods) : @temperature_hi
+      @temperature = main_period.temperature
+      @description = main_period.short_forecast
+      @icon = main_period.icon
     end
   end
 
@@ -54,7 +54,7 @@ class Forecast
 
   private
 
-  def fetch_current_period(periods)
+  def fetch_main_period(periods)
     current_time = Time.current
 
     periods.find do |period|

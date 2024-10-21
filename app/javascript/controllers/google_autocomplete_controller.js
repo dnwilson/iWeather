@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="google-autocomplete"
 export default class extends Controller {
-  static targets = ["search", "city", "state", "zipcode", "latitude", "longitude"]
+  static targets = ["search", "city", "state", "zipcode", "latitude", "longitude", "submitBtn"]
   static values = {
     latitude: Number,
     longitude: Number
@@ -20,19 +20,18 @@ export default class extends Controller {
   }
 
   initMap() {
-    console.log("Init called...")
     this.autocomplete = new google.maps.places.Autocomplete(
       /** @type {!HTMLInputElement} */ (this.searchTarget),
       { }
     )
 
     if (this.longitudeValue && this.latitudeValue) {
-      console.log("Coords set...", this.latitudeValue, this.longitudeValue)
       const bounds = new google.maps.LatLng({ lat: this.latitudeValue, lng: this.longitudeValue })
       const circle = new google.maps.Circle({ center: bounds, radius: 1000 })
       this.autocomplete.setBounds(circle.getBounds())
     }
 
+    window.dispatchEvent(new CustomEvent("autocomplete-loaded", {}))
     this.autocomplete.addListener("place_changed", this.onPlaceChanged.bind(this))
   }
 
@@ -52,7 +51,6 @@ export default class extends Controller {
 
   onPlaceChanged() {
     const place = this.autocomplete.getPlace()
-    console.log("Place", place)
     const zipcode = place.address_components.find((component) => {
       return component.types.includes("postal_code")
     })
@@ -67,5 +65,7 @@ export default class extends Controller {
     this.stateTarget.value = state?.short_name
     this.latitudeTarget.value = place.geometry.location.lat()
     this.longitudeTarget.value = place.geometry.location.lng()
+
+    this.submitBtnTarget.removeAttribute("disabled")
   }
 }
