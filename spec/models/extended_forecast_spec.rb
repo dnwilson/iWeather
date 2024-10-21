@@ -12,6 +12,12 @@ RSpec.describe ExtendedForecast, type: :model do
     }
   end
   let(:extended_forecast) { described_class.new(params) }
+  let(:periods) { hourly_forecast_response.deep_transform_keys(&:underscore).deep_symbolize_keys[:properties][:periods] }
+
+  before do
+    allow(WeatherApiService).to receive(:get_forecast).
+      with(params[:latitude], params[:longitude]) { periods }
+  end
 
   it { expect(extended_forecast).to respond_to(:latitude) }
   it { expect(extended_forecast).to respond_to(:longitude) }

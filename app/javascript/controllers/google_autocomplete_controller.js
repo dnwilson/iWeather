@@ -9,10 +9,7 @@ export default class extends Controller {
   }
 
   connect() {
-    navigator.geolocation.getCurrentPosition(
-      this.onGeolocationSuccess.bind(this),
-      this.onGeolocationError.bind(this)
-    )
+    this.initMap()
   }
 
   disconnect() {
@@ -35,27 +32,13 @@ export default class extends Controller {
     this.autocomplete.addListener("place_changed", this.onPlaceChanged.bind(this))
   }
 
-  onGeolocationSuccess(position) {
-    const { latitude, longitude } = position.coords
-
-    this.latitudeValue = latitude
-    this.longitudeValue = longitude
-
-    this.initMap()
-  }
-
-  onGeolocationError(error) {
-    console.error('Error getting geolocation:', error)
-    this.initMap()
-  }
-
   onPlaceChanged() {
     const place = this.autocomplete.getPlace()
     const zipcode = place.address_components.find((component) => {
       return component.types.includes("postal_code")
     })
     const city = place.address_components.find((component) => {
-      return component.types.includes("sublocality_level_1")
+      return component.types.includes("sublocality_level_1") || component.types.includes("locality")
     })
     const state = place.address_components.find((component) => {
       return component.types.includes("administrative_area_level_1")
