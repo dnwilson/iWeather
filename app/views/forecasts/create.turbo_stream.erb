@@ -1,1 +1,3 @@
-<%= turbo_stream.replace :forecast, partial: "forecast", locals: { forecasts: @forecasts, today: @forecasts.first } %>
+<%= turbo_stream.replace :forecast, partial: "forecast",
+                                    locals: { extended_forecast: @extended_forecast,
+                                              today: @extended_forecast.forecasts.first } %>

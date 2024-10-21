@@ -1,5 +1,5 @@
-<%= form_with url: forecasts_url, method: :post, id: "forecast_form",
-              autocomplete: :off,
+<%= form_with url: forecasts_url, method: :post,
+              id: "forecast_form", autocomplete: :off,
               data: { controller: "google-autocomplete",
                       action: "init-map@window->google-autocomplete#initMap" } do |form| %>
   <div class="flex">

@@ -2,7 +2,7 @@
   <div class="mt-8 bg-blue-400 p-4 w-full">
     <div class="flex w-full justify-between items-end text-white">
       <div class="temperature">
-        <div><%= today.temperature %></div>
+        <div><%= extended_forecast.location %></div>
         <div class="text-xl font-bold"><%= today.temperature %>°</div>
       </div>
       <div class="current-forecast">
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="flex w-full gap-2 mt-4">
-      <% forecasts.drop(1).each do |forecast| %>
+      <% extended_forecast.future_cast.each do |forecast| %>
         <div class="block text-center">
           <div class="forecast"><%= image_tag(forecast.current_period.icon, class: "w-8") %></div>
           <div class="forecast"><%= forecast.description %></div>

@@ -13,9 +13,9 @@ class WeatherApiService
       point_response = make_request("#{BASE_URL}/points/#{rounded_latitude},#{rounded_longitude}")
 
       if point_response.dig("properties", "forecastHourly")
-        hourly_forecast = make_request(point_response.dig("properties", "forecastHourly"))
-        hourly_forecast = hourly_forecast.deep_transform_keys(&:underscore).deep_symbolize_keys
-        Forecast.build_extended_forecast(hourly_forecast[:properties][:periods])
+        response = make_request(point_response.dig("properties", "forecastHourly"))
+        json = response.deep_transform_keys(&:underscore).deep_symbolize_keys
+        json[:properties][:periods]
       else
         raise DataError("Please check your verify you have entered a valid address.")
       end

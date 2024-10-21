@@ -12,24 +12,22 @@ class Forecast
       extended_forecast
     end
 
-    private_methods
-
-    def extended_forecast_hash
-      days = {}
-
-      (0..6).each do |i|
-        day = Date.today + i
-        days[day.strftime("%d/%m/%Y")] = []
-      end
-
-      days
+    def get_forecast_for(latitude, longitude)
+      periods = WeatherApiService.get_forecast(latitude, longitude)
+      build_extended_forecast(periods)
     end
 
+    private_methods
+
     def periods_by_date(periods)
-      hash = extended_forecast_hash
+      hash = {}
 
       periods.each do |period_hash|
         date = period_hash[:start_time].to_datetime.strftime("%d/%m/%Y")
+        if hash[date].blank?
+          hash[date] = []
+        end
+
         hash[date].push(Period.new(period_hash))
       end
 
