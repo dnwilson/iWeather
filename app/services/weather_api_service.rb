@@ -1,3 +1,5 @@
+require "net/http"
+
 class WeatherApiService
   BASE_URL = "https://api.weather.gov"
 
@@ -7,8 +9,22 @@ class WeatherApiService
   class << self
     def get_forecast(latitude, longitude)
       point_response = make_request("#{BASE_URL}/points/#{latitude.to_f.round(4)},#{longitude.to_f.round(4)}")
-      if point_response.dig("properties", "forecast")
-        make_request(point_response.dig("properties", "forecast"))
+      if point_response.dig("properties", "forecastHourly")
+        forecast = make_request(point_response.dig("properties", "forecastHourly"))
+
+        days = {}
+        (0..6).each do |i|
+          day = Date.today + i
+          days[day.strftime("%d/%m/%Y")] = []
+        end
+
+        forecast["properties"]["periods"].each do |hash|
+          puts "hash: #{hash["startTime"].to_datetime.strftime("%d/%m/%Y")}"
+          days[hash["startTime"].to_datetime.strftime("%d/%m/%Y")].push(hash)
+        end
+
+        puts "Days: #{days}"
+        days
       else
         raise DataError("Please check your verify you have entered a valid address.")
       end

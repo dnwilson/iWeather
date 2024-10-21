@@ -5,7 +5,7 @@ iWeather is designed to give produce the current weather forecast for a provided
 [x] Setup basic structure
 [x] Setup basic API request
 [ ] Validate cache
-[ ] Add API improvements
+[x] Add API improvements
 [ ] Add styles
 
 ## Setup

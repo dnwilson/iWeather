@@ -6,10 +6,20 @@ class ForecastsController < ApplicationController
   end
 
   def create
+    puts "PARAMS: #{params[:latitude]}, #{params[:longitude]}"
     @forecast = WeatherApiService.get_forecast(params[:latitude], params[:longitude])
-    render json: @forecast, status: :ok
+    puts "FORCAST --> #{@forecast}"
+    respond_to do |format|
+      format.json { render json: @forecast, status: :ok }
+      format.turbo_stream
+    end
   rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    respond_to do |format|
+      format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace("forecast_form", partial: "forecasts/form")
+      }
+    end
   end
 
   private

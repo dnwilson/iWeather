@@ -1,6 +1,14 @@
-<%= form_with url: forecasts_url, method: :post do |form| %>
+<%= form_with url: forecasts_url, method: :post, id: "forecast_form",
+              autocomplete: :off,
+              data: { controller: "google-autocomplete",
+                      action: "init-map@window->google-autocomplete#initMap" } do |form| %>
   <div class="flex">
-    <%= form.text_field :address %>
+    <%= form.hidden_field :zipcode, data: { google_autocomplete_target: "zipcode" } %>
+    <%= form.hidden_field :city, data: { google_autocomplete_target: "city" } %>
+    <%= form.hidden_field :state, data: { google_autocomplete_target: "state" } %>
+    <%= form.hidden_field :latitude, data: { google_autocomplete_target: "latitude" } %>
+    <%= form.hidden_field :longitude, data: { google_autocomplete_target: "longitude" } %>
+    <%= form.text_field :address, data: { google_autocomplete_target: "search" } %>
     <%= form.submit "Get Forecast", class: "bg-black text-white px-4" %>
   </div>
 <% end %>
