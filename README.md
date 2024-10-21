@@ -1,24 +1,14 @@
-# README
+# iWeather
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+iWeather is designed to give produce the current weather forecast for a provided address. Subsequent requests are cached by zip code for 30 minutes and an idicator is added to informed the user whether the response is from cache.
 
-Things you may want to cover:
+[x] Setup basic structure
+[ ] Setup basic API request
+[ ] Validate cache
+[ ] Add API improvements
+[ ] Add styles
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Setup
+```
+bin/setup
+```

@@ -1,0 +1,6 @@
+<%= form_with url: forecasts_url, method: :post do |form| %>
+  <div class="flex">
+    <%= form.text_field :address %>
+    <%= form.submit "Get Forecast", class: "bg-black text-white px-4" %>
+  </div>
+<% end %>

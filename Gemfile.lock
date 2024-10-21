@@ -382,12 +382,12 @@ DEPENDENCIES
   brakeman
   capybara
   debug
-  guard-rspec
+  guard-rspec (~> 4.7.3)
   importmap-rails
   jbuilder
   puma (>= 5.0)
   rails (~> 7.2.1, >= 7.2.1.1)
-  rspec-rails
+  rspec-rails (~> 7.0.1)
   rubocop-rails-omakase
   selenium-webdriver
   sprockets-rails
