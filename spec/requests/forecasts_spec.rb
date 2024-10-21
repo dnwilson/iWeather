@@ -16,13 +16,13 @@ RSpec.describe "Forecasts", type: :request do
   end
 
   describe "POST /create" do
-    let(:valid_params) do
-      {}
-    end
+    let(:valid_params) { { latitude: "37.3346438", longitude: "-122.008972" } }
 
     it "returns http success" do
+      allow(WeatherApiService).to receive(:get_forecast).with(valid_params[:latitude], valid_params[:longitude]) { forecast_response }
       post "/forecasts", params: valid_params
-      expect(response).to redirect_to(forecast_path(1))
+      json = JSON.parse(response.body)
+      expect(json).to eq(forecast_response.deep_stringify_keys)
     end
   end
 end
