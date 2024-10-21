@@ -8,23 +8,14 @@ class WeatherApiService
 
   class << self
     def get_forecast(latitude, longitude)
-      point_response = make_request("#{BASE_URL}/points/#{latitude.to_f.round(4)},#{longitude.to_f.round(4)}")
+      rounded_latitude  = latitude.to_f.round(4)
+      rounded_longitude = longitude.to_f.round(4)
+      point_response = make_request("#{BASE_URL}/points/#{rounded_latitude},#{rounded_longitude}")
+
       if point_response.dig("properties", "forecastHourly")
-        forecast = make_request(point_response.dig("properties", "forecastHourly"))
-
-        days = {}
-        (0..6).each do |i|
-          day = Date.today + i
-          days[day.strftime("%d/%m/%Y")] = []
-        end
-
-        forecast["properties"]["periods"].each do |hash|
-          puts "hash: #{hash["startTime"].to_datetime.strftime("%d/%m/%Y")}"
-          days[hash["startTime"].to_datetime.strftime("%d/%m/%Y")].push(hash)
-        end
-
-        puts "Days: #{days}"
-        days
+        hourly_forecast = make_request(point_response.dig("properties", "forecastHourly"))
+        hourly_forecast = hourly_forecast.deep_transform_keys(&:underscore).deep_symbolize_keys
+        Forecast.build_extended_forecast(hourly_forecast[:properties][:periods])
       else
         raise DataError("Please check your verify you have entered a valid address.")
       end

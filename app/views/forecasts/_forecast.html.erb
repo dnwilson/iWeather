@@ -1,35 +1,24 @@
 <%= turbo_frame_tag :forecast do %>
-  <%
-    today = forecast[Date.today.strftime("%d/%m/%Y")]
-    low = today.min_by { |hash| hash["temperature"] }
-    high = today.max_by { |hash| hash["temperature"] }
-    Rails.logger.info "TODAY: #{today}"
-  %>
   <div class="mt-8 bg-blue-400 p-4 w-full">
     <div class="flex w-full justify-between items-end text-white">
       <div class="temperature">
-        <div><%= today[0]["temperature"] %></div>
-        <div class="text-xl font-bold"><%= today[0]["temperature"] %>°</div>
+        <div><%= today.temperature %></div>
+        <div class="text-xl font-bold"><%= today.temperature %>°</div>
       </div>
       <div class="current-forecast">
-        <%= image_tag today[0]["icon"], class: "w-8" %>
-        <div class="text-sm"><%= today[0]["shortForecast"] %></div>
-        <div class="text-xs">High: <%= high["temperature"] %> / Low: <%= low["temperature"] %></div>
+        <%= image_tag today.icon, class: "w-8" %>
+        <div class="text-sm"><%= today.description %></div>
+        <div class="text-xs">High: <%= today.temperature_hi.temperature %> / Low: <%= today.temperature_lo.temperature %></div>
       </div>
     </div>
     <div class="flex w-full gap-2 mt-4">
-      <% forecast.each do |key, periods| %>
-        <% next if key == Date.today.strftime("%d/%m/%Y") %>
-        <%
-          day_low = periods.min_by { |hash| hash["temperature"] }
-          day_high = periods.max_by { |hash| hash["temperature"] }
-        %>
+      <% forecasts.drop(1).each do |forecast| %>
         <div class="block text-center">
-          <div class="forecast"><%= image_tag(day_high["icon"], class: "w-8") %></div>
-          <div class="forecast"><%= day_high["shortForecast"] %></div>
-          <div class="day"><%= Date.parse(key).strftime("%^a") %></div>
-          <div class="text-md">H: <%= day_high["temperature"] %>°</div>
-          <div class="text-sm">L: <%= day_low["temperature"] %>°</div>
+          <div class="forecast"><%= image_tag(forecast.current_period.icon, class: "w-8") %></div>
+          <div class="forecast"><%= forecast.description %></div>
+          <div class="day"><%= forecast.date.to_date.strftime("%^a") %></div>
+          <div class="text-md">H: <%= forecast.temperature_hi.temperature %>°</div>
+          <div class="text-sm">L: <%= forecast.temperature_lo.temperature %>°</div>
         </div>
       <% end %>
     </div>
