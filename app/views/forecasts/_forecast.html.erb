@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :forecast do %>
-  <div class="mt-8 bg-gradient-to-r from-sky-300 to-sky-500 p-4 w-full rounded-md">
+  <div class="mt-8 bg-gradient-to-r <%= today.main_period.daytime? ? "from-sky-300 to-sky-400" : "from-sky-800 to-sky-950" %> p-4 w-full rounded-md">
     <div class="flex w-full justify-between items-end text-white">
       <div class="temperature">
         <div class="text-6xl font-bold"><%= today.temperature %>°</div>

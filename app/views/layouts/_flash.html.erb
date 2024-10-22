@@ -1,0 +1,6 @@
+<% flash.each do |flash_type, message| %>
+  <div class="bg-amber-100 text-amber-500 rounded-md mx-12 p-4 border-1 border-amber-500 mb-4"
+    data-controller="auto-remove">
+    <%= message %>
+  </div>
+<% end %>
