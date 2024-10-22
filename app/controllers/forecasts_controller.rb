@@ -13,6 +13,12 @@ class ForecastsController < ApplicationController
     respond_to do |format|
       format.turbo_stream
     end
+  rescue => e
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = "There was an error processing your request. #{e.message}"
+      end
+    end
   end
 
   private

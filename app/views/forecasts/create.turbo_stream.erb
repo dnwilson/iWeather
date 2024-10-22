@@ -1,4 +1,9 @@
-<%= turbo_stream.replace :forecast, partial: "forecast",
-                                    locals: { extended_forecast: @extended_forecast,
-                                              today: @extended_forecast.forecasts.first,
-                                              cached: @cached } %>
+<%= turbo_stream.prepend "flash", partial: "layouts/flash" %>
+<% if @extended_forecast&.valid? %>
+  <%= turbo_stream.replace :forecast, partial: "forecast",
+                                      locals: { extended_forecast: @extended_forecast,
+                                                today: @extended_forecast.forecasts.first,
+                                                cached: @cached } %>
+<% else %>
+  <%= turbo_stream.action(:reset_form, "forecast_form") %>
+<% end %>

@@ -20,6 +20,9 @@
   <body>
     <main class="container mx-auto w-full lg:w-1/2">
       <div class="columns-auto text-center mt-24">
+        <div id="flash" class="flash">
+          <%= render "layouts/flash" %>
+        </div>
         <%= yield %>
       </div>
     </main>

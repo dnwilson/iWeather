@@ -1,7 +1,7 @@
 <%= form_with url: forecasts_url, method: :post,
               id: "forecast_form", autocomplete: :off,
               data: { controller: "google-autocomplete form",
-                      action: "autocomplete-loaded@window->form#show" } do |form| %>
+                      action: "autocomplete-loaded@window->form#show reset-data->form#onReset" } do |form| %>
   <div class="flex w-full items-center justify-center" data-form-target="loader">
     <svg class="animate-spin -ml-1 h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -17,6 +17,6 @@
     <%= form.text_field :address, class: "rounded-l-md w-full px-4 py-3 border-1 border-gray-300 sm:text-sm focus:border-gray-300 focus:outline-none outline-none transition-all",
                                   data: { google_autocomplete_target: "search" } %>
     <%= form.submit "Get Forecast", class: "rounded-r-md bg-black text-white disabled:bg-gray-500 px-4", disabled: :disabled,
-                                    data: { google_autocomplete_target: "submitBtn" } %>
+                                    data: { google_autocomplete_target: "submitBtn", form_target: "submitBtn" } %>
   </div>
 <% end %>

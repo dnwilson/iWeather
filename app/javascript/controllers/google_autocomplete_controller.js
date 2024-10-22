@@ -9,17 +9,25 @@ export default class extends Controller {
   }
 
   connect() {
-    this.initMap()
+    this.waitForGoogle()
   }
 
   disconnect() {
     this.autocomplete = null
   }
 
+  waitForGoogle() {
+    if (typeof google !== 'undefined' && google.maps) {
+      this.initMap()
+    } else {
+      setTimeout(waitForGoogle, 100)
+    }
+  }
+
   initMap() {
     this.autocomplete = new google.maps.places.Autocomplete(
       /** @type {!HTMLInputElement} */ (this.searchTarget),
-      { }
+      { componentRestrictions: { country: "us" } }
     )
 
     if (this.longitudeValue && this.latitudeValue) {
@@ -27,7 +35,7 @@ export default class extends Controller {
       const circle = new google.maps.Circle({ center: bounds, radius: 1000 })
       this.autocomplete.setBounds(circle.getBounds())
     }
-
+    
     window.dispatchEvent(new CustomEvent("autocomplete-loaded", {}))
     this.autocomplete.addListener("place_changed", this.onPlaceChanged.bind(this))
   }
