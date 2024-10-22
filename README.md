@@ -16,7 +16,7 @@ This is application used Turbo & StimulusJS to simulate a SPA feel. It's deploy 
 ### Third-Party API Integrations
 - [Weather.gov](https://weather-gov.github.io/api) - this API was choose primarily because it is free and US.
 
-- [Google Place Autocomplete JS](https://developers.google.com/maps/documentation/javascript/place-autocomplete) - Well supported and easy to implement. It also provides front-end validations for addresses out of the box
+- [Google Place Autocomplete](https://developers.google.com/maps/documentation/javascript/place-autocomplete) - Well supported and easy to implement. It also provides front-end validations for addresses out of the box
 
 ### Setup
 ```

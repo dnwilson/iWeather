@@ -20,7 +20,7 @@ export default class extends Controller {
     if (typeof google !== 'undefined' && google.maps) {
       this.initMap()
     } else {
-      setTimeout(waitForGoogle, 100)
+      setTimeout(this.waitForGoogle(), 100)
     }
   }
 
