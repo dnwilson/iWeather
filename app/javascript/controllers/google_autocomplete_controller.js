@@ -20,7 +20,7 @@ export default class extends Controller {
     if (typeof google !== 'undefined' && google.maps) {
       this.initMap()
     } else {
-      setTimeout(this.waitForGoogle(), 100)
+      setTimeout(this.waitForGoogle.bind(this), 100)
     }
   }
 
@@ -35,7 +35,7 @@ export default class extends Controller {
       const circle = new google.maps.Circle({ center: bounds, radius: 1000 })
       this.autocomplete.setBounds(circle.getBounds())
     }
-    
+
     window.dispatchEvent(new CustomEvent("autocomplete-loaded", {}))
     this.autocomplete.addListener("place_changed", this.onPlaceChanged.bind(this))
   }
